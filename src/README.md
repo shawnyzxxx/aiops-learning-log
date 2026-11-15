@@ -12,6 +12,7 @@
 | D4 | 告警（规则 + Alertmanager + 接收器） | ✅ |
 | D5 | 故障注入 | ✅ |
 | D8 | 语料切分 + bge-m3 向量入库 + top-5 检索验证 | ✅ |
+| D9 | RAG 结构化问答（JSON + pydantic 校验） | ✅ |
 
 ## 目录
 
@@ -21,6 +22,7 @@ src/
 ├── receiver.py             # D4：接收 Alertmanager 的告警
 ├── build_index.py          # D8：切块 + 转向量 + 存 Chroma
 ├── search_test.py          # D8：检索 top-5，验证召回
+├── rag.py                  # D9：检索 + 生成，输出 {answer, citations, confidence}
 ├── requirements.txt
 ├── README.md
 └── monitoring/             # D2 起：Prometheus + Grafana + Alertmanager

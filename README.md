@@ -46,7 +46,8 @@
 - [x] D6 Linux 排查四件套（[notes/D06-cheatsheet.md](notes/D06-cheatsheet.md)）
 - [x] D7 第 1 周复盘（[notes/D07.md](notes/D07.md)）
 - [x] D8 语料切分 + bge-m3 向量入库 + 检索验证（[src/build_index.py](src/build_index.py) · [notes/D08.md](notes/D08.md)）
-- [ ] 第 2 周
+- [x] D9 RAG 结构化问答 + pydantic 校验（[src/rag.py](src/rag.py) · [notes/D09.md](notes/D09.md)）— 格式合法 20/20，拒答 5/5
+- [ ] 第 2 周（进行中：D10 评测集）
 - [ ] 第 3 周
 
 ## 三周验收标准

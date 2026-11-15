@@ -8,3 +8,5 @@ chromadb==1.5.9
 python-dotenv==1.2.1
 # RHEL 9 自带 sqlite 3.34.1 < chromadb 要求的 3.35.0，用这个包顶上
 pysqlite3-binary==0.5.4.post2
+# D9 起：结构化输出校验（venv 里随 chromadb 带入，显式声明避免"侥幸可用"）
+pydantic==2.13.5
