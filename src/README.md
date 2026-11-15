@@ -40,6 +40,7 @@ src/
 cd ~/aiops
 python3 -m venv .venv
 source .venv/bin/activate
+which python                                    # 自检：必须是 .venv/bin/python
 pip config set global.index-url https://pypi.tuna.tsinghua.edu.cn/simple
 pip install -r requirements.txt
 
@@ -86,6 +87,7 @@ docker compose up -d
 ```bash
 cd ~/aiops
 source .venv/bin/activate
+which python            # 必须是 .venv/bin/python，否则 python build_index.py 会报 ModuleNotFoundError
 pip install -r requirements.txt        # 已含 openai / chromadb / pysqlite3-binary
 
 python build_index.py                  # corpus/*.md → 130 块 → chroma/

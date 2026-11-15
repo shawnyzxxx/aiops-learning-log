@@ -69,6 +69,37 @@ pidstat -d 1         # iotop 没装时的替代
 
 ---
 
+## {Python 脚本一跑就 ModuleNotFoundError}（项目环境类，不是系统故障）
+
+**先分清**：报错停在 `import` 那一行 → 十有八九是**虚拟环境没激活**，不是包没装、也不是代码写错。
+
+**看**：
+
+```bash
+which python          # /usr/bin/python = 没激活；~/aiops/.venv/bin/python = 正常
+echo $VIRTUAL_ENV     # 空 = 没激活
+ls ~/aiops/.venv/bin/python
+```
+
+**异常**：
+
+- `ModuleNotFoundError: No module named 'pysqlite3' / 'chromadb' / 'fastapi'` → 用的是系统 python，它看不见 `.venv` 里的包
+- `pip install xxx` 显示装好了、`import` 还是失败 → 那次 pip 也没激活，包漏进了 `~/.local/lib/python3.9/site-packages/`
+- 报错行是 `__import__('pysqlite3')` 这种「补丁行」→ 别以为补丁写错了，它只是第一个碰到缺包的地方
+
+**下一步**：
+
+```bash
+cd ~/aiops && source .venv/bin/activate
+which python                     # 确认变成 .venv/bin/python
+pip list | grep -i 包名           # 确认包真在 venv 里
+python xxx.py
+```
+
+> 规矩：**先激活，再 pip install，再 python**。激活状态不跨终端保留，每个新终端都要重新 source。
+
+---
+
 ## {服务起不来}
 
 **看**：`systemctl status <服务名>`（active 状态 + 最后几行报错）

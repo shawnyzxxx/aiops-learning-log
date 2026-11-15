@@ -67,9 +67,10 @@
 ## 常用命令
 
 ``` bash
-# 虚拟机里
+# 虚拟机里 —— 每次开新终端先跑这三行（激活状态不跨终端保留）
 cd ~/aiops
 source .venv/bin/activate
+which python        # 自检：必须是 .venv/bin/python，否则后面全报 ModuleNotFoundError
 
 uvicorn app:app --host 0.0.0.0 --port 8000     # 起业务服务
 uvicorn receiver:app --host 0.0.0.0 --port 8001 # 起告警接收器
