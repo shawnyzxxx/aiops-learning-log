@@ -13,6 +13,7 @@
 | D5 | 故障注入 | ✅ |
 | D8 | 语料切分 + bge-m3 向量入库 + top-5 检索验证 | ✅ |
 | D9 | RAG 结构化问答（JSON + pydantic 校验） | ✅ |
+| D10 | 20 条评测集（15 有答案 + 5 陷阱）+ 自检脚本 | ✅ |
 
 ## 目录
 
@@ -23,6 +24,7 @@ src/
 ├── build_index.py          # D8：切块 + 转向量 + 存 Chroma
 ├── search_test.py          # D8：检索 top-5，验证召回
 ├── rag.py                  # D9：检索 + 生成，输出 {answer, citations, confidence}
+├── d10_check.py             # D10：评测集自检（数量/文件名/标题/frozen_at）
 ├── requirements.txt
 ├── README.md
 └── monitoring/             # D2 起：Prometheus + Grafana + Alertmanager

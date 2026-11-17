@@ -108,4 +108,7 @@ git status -sb | head -2                            # 确认 main...origin/main 
 | 网卡 | `ens33`（`localhost` 与本机 IP 走 `lo`，tc 加 ens33 测不出延迟） |
 | git | 全局 `insteadof` 把 https 改写成 SSH；虚拟机**不是** git 仓库，代码在 Windows 提交 |
 | 快照 | `base-ready` / `week1-done` / `week2-done`（D14 打） |
+| 宿主虚拟网卡 | VMnet8 = `192.168.223.1/24`、VMnet1 = `192.168.0.1/24`（值抄自 `C:\ProgramData\VMware\vmnetdhcp.conf`）。掉到 `169.254.x` 就是连不上的根因 |
+| 虚拟机 IP | **静态** `192.168.223.129/24`，网关/DNS `192.168.223.2`（`nmcli`；改前备份 `/root/ens33-before-static.txt`） |
+| 连通判据 | 用 `ssh` 或测 TCP 22，**不要用 ping**（RHEL 拦 ICMP）；`vmware-vmx.exe` 在跑 = 虚拟机开着 |
 | GitHub 连通 | git 走 SSH 直连即可；浏览器看网页/下 raw 需开 Clash（7897）或用 `gh-proxy.com` 前缀 |

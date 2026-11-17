@@ -120,6 +120,50 @@ lsof -i:<端口>                                 # 谁占了端口
 
 ---
 
+## {宿主机连不上虚拟机（SSH / MobaXterm 超时）}
+
+**先分清三段**：宿主的虚拟网卡 → 虚拟机本身 → 虚拟机里的服务。断在哪一段，症状完全不同。
+
+**看**（Windows 侧，按顺序，不要跳）：
+
+```bash
+ipconfig | grep -A4 VMnet8                                  # VMnet8 必须是 192.168.223.1
+MSYS_NO_PATHCONV=1 route print | grep 192.168.223            # 有没有到这个网段的路由
+timeout 6 bash -c 'exec 3<>/dev/tcp/192.168.223.129/22' && echo 22通 || echo 22不通
+```
+
+**异常与判读**：
+
+| 看到什么 | 结论 | 下一步 |
+|---|---|---|
+| VMnet8 是 `169.254.x.x` | **宿主虚拟网卡丢了静态 IP**（最常见，本项目踩过） | 下面两条 `netsh` 恢复 |
+| VMnet8 正常、22 端口不通 | 虚拟机没开机，或 IP 变了 | 看 `vmware-vmx.exe` 在不在；查 `C:\ProgramData\VMware\vmnetdhcp.leases` 里今天发的哪个 IP |
+| 22 通但 ssh 报 `Connection refused` | 虚拟机里 sshd 挂了 | VMware 控制台里 `systemctl restart sshd` |
+| `ping` 不通但 `ssh` 能进 | **正常**，RHEL 防火墙拦 ICMP | 别拿 ping 当判据 |
+
+**下一步**（管理员权限执行；正确值抄自 VMware 自己的配置，不是猜的）：
+
+```powershell
+netsh interface ip set address name="VMware Network Adapter VMnet8" static 192.168.223.1 255.255.255.0
+netsh interface ip set address name="VMware Network Adapter VMnet1" static 192.168.0.1 255.255.255.0
+```
+
+依据：`C:\ProgramData\VMware\vmnetdhcp.conf` 里 `host VMnet8 { hardware ethernet 00:50:56:C0:00:08; fixed-address 192.168.223.1; }`，`subnet 192.168.223.0 netmask 255.255.255.0`。
+
+**本项目实录（2026-11-17）**：MobaXterm 连不上。虚拟机其实是开着的——`vmware-vmx.exe` 在跑、DHCP 在 17:14 还发了 `192.168.223.129` 的租约、`aiops-app` 和三个容器都 active。坏点在**宿主**：VMnet8 和 VMnet1 同时掉到 `169.254.x`，路由表里一条 `192.168.223.0/24` 都没有。跑完上面两条 `netsh` 立刻恢复。
+
+顺带把虚拟机也改成静态 IP 了（原来是 DHCP，租期只有 1800 秒，重启就可能换 IP 又「连不上」）：
+
+```bash
+nmcli connection modify ens33 ipv4.method manual ipv4.addresses 192.168.223.129/24 \
+  ipv4.gateway 192.168.223.2 ipv4.dns 192.168.223.2 ipv4.dns-search localdomain
+nmcli connection up ens33
+```
+
+改前的配置备份在虚拟机 `/root/ens33-before-static.txt`，要回滚就 `nmcli connection modify ens33 ipv4.method auto` 再 `nmcli connection up ens33`。
+
+---
+
 ## 在本项目里怎么用
 
 这套 cheat sheet 直接对应你搭的这套系统：
