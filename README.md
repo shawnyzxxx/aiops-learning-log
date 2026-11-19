@@ -24,7 +24,7 @@
 | `scripts/rhel-setup.sh` | RHEL 9 环境一键初始化脚本 |
 | `notes/` | 每日复盘（D01–D21） |
 | `docs/` | dashboard 截图、架构图、录屏 |
-| `eval/` | 评测集与打分结果 |
+| `eval/` | 评测集与打分结果（`questions.json` 完整版 / `eval_set.json` run_eval 输入 / `eval_result.json` 实测结果） |
 
 ## 环境
 
@@ -48,7 +48,8 @@
 - [x] D8 语料切分 + bge-m3 向量入库 + 检索验证（[src/build_index.py](src/build_index.py) · [notes/D08.md](notes/D08.md)）
 - [x] D9 RAG 结构化问答 + pydantic 校验（[src/rag.py](src/rag.py) · [notes/D09.md](notes/D09.md)）— 格式合法 20/20，拒答 5/5
 - [x] D10 20 条评测集 + 自检脚本（[eval/questions.json](eval/questions.json) · [src/d10_check.py](src/d10_check.py) · [notes/D10.md](notes/D10.md)）
-- [ ] 第 2 周（进行中：D11 跑评测）
+- [x] D11 第一次评测：recall@5 = **0.867**（13/15）、拒答率 **1.0**（5/5）（[src/run_eval.py](src/run_eval.py) · [eval/eval_result.json](eval/eval_result.json) · [notes/D11.md](notes/D11.md)）
+- [ ] 第 2 周（进行中：D12 调优）
 - [ ] 第 3 周
 
 ## 三周验收标准

@@ -14,6 +14,7 @@
 | D8 | 语料切分 + bge-m3 向量入库 + top-5 检索验证 | ✅ |
 | D9 | RAG 结构化问答（JSON + pydantic 校验） | ✅ |
 | D10 | 20 条评测集（15 有答案 + 5 陷阱）+ 自检脚本 | ✅ |
+| D11 | 评测脚本 `run_eval.py`（recall@5 = 0.867、拒答率 1.0） | ✅ |
 
 ## 目录
 
@@ -25,6 +26,7 @@ src/
 ├── search_test.py          # D8：检索 top-5，验证召回
 ├── rag.py                  # D9：检索 + 生成，输出 {answer, citations, confidence}
 ├── d10_check.py             # D10：评测集自检（数量/文件名/标题/frozen_at）
+├── run_eval.py              # D11：跑评测，输出 recall@5 + reject_rate，明细落 eval_result.json
 ├── requirements.txt
 ├── README.md
 └── monitoring/             # D2 起：Prometheus + Grafana + Alertmanager
