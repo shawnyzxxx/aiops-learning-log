@@ -1,97 +1,127 @@
-# run_eval.py —— 跑评测，输出 recall + 待人工打分的答案
-#
-# D11 版：纯向量检索（rag.retrieve）
-# D12 版：接上混合检索（rag.hybrid_retrieve），并同时输出 recall@5 / recall@10
-#         —— 两个口径必须分开写，因为「给模型几条上下文」和「按前几名算命中」是两件事。
+# run_eval.py —— D11-D13 统一评测入口
+"""支持独立输入输出和只复测检索，保留严格口径与等价来源口径。"""
+import argparse
 import json
-import os
-import sys
 
-from rag import retrieve, hybrid_retrieve, answer, col
+from rag import hybrid_retrieve, answer
 
-EVAL_FILE = "eval_set.json"
-OUT_FILE = "eval_result.json"
+RECALL_K = 5
+CONTEXT_K = 10
+ANSWER_FIELDS = ("answer", "citations", "confidence", "ok", "score", "note")
 
-RECALL_K = 5        # 评分口径：期望文件是否落在前 5 条
-CONTEXT_K = 10      # D12：混合检索合并后喂给模型的上下文条数
+
+def parse_args():
+    parser = argparse.ArgumentParser(description="Run RAG retrieval and answer evaluation")
+    parser.add_argument("--eval-file", default="eval_set.json")
+    parser.add_argument("--output", default="eval_result.json")
+    parser.add_argument("--retrieval-only", action="store_true")
+    parser.add_argument("--reuse-answers-from", default=None)
+    return parser.parse_args()
+
+
+def load_previous(path):
+    if not path:
+        return {}
+    try:
+        with open(path, encoding="utf-8") as f:
+            return {x["id"]: x for x in json.load(f).get("items", [])}
+    except FileNotFoundError:
+        return {}
 
 
 def main():
-    data = json.load(open(EVAL_FILE, encoding="utf-8"))
-    items = data["items"]
-
+    args = parse_args()
+    with open(args.eval_file, encoding="utf-8") as f:
+        data = json.load(f)
+    previous = load_previous(args.reuse_answers_from or args.output)
     results = []
-    hit5 = 0
-    hit10 = 0
-    total_answerable = 0
-    reject_ok = 0
-    total_unanswerable = 0
+    strict5 = strict10 = equivalent5 = equivalent10 = 0
+    reject_ok = total_answerable = total_unanswerable = 0
 
-    for it in items:
-        q = it["question"]
-        hits = hybrid_retrieve(q)                          # D12：向量 + BM25 混合
+    for it in data["items"]:
+        question = it["question"]
+        hits = hybrid_retrieve(question)
         sources5 = [m["source"] for _, m, _ in hits[:RECALL_K]]
         sources10 = [m["source"] for _, m, _ in hits[:CONTEXT_K]]
-
-        rec = {"id": it["id"], "question": q, "answerable": it["answerable"],
-               "expected": it.get("expected_source"),
+        expected = it.get("expected_source")
+        expected_sources = it.get("expected_sources") or ([expected] if expected else [])
+        old = previous.get(it["id"], {})
+        rec = {"id": it["id"], "question": question, "answerable": it["answerable"],
+               "expected": expected, "expected_sources": expected_sources,
                "retrieved": sources5, "retrieved10": sources10}
 
         if it["answerable"]:
             total_answerable += 1
-            if it.get("expected_source") in sources5:
-                hit5 += 1
-                rec["recall_hit"] = True
-            else:
-                rec["recall_hit"] = False
-            if it.get("expected_source") in sources10:
-                hit10 += 1
-                rec["recall10_hit"] = True
-            else:
-                rec["recall10_hit"] = False
+            rec["strict_recall_hit"] = expected in sources5
+            rec["strict_recall10_hit"] = expected in sources10
+            rec["recall_hit"] = any(s in sources5 for s in expected_sources)
+            rec["recall10_hit"] = any(s in sources10 for s in expected_sources)
+            strict5 += rec["strict_recall_hit"]
+            strict10 += rec["strict_recall10_hit"]
+            equivalent5 += rec["recall_hit"]
+            equivalent10 += rec["recall10_hit"]
         else:
             total_unanswerable += 1
 
-        # 生成答案（后面人工打分）；hits 直接传进去，避免重复检索
-        try:
-            r = answer(q, hits=hits)
-            rec["answer"] = r.get("answer", "")
-            rec["citations"] = r.get("citations", [])
-            rec["confidence"] = r.get("confidence", 0)
-            rec["ok"] = r.get("ok", False)
-        except Exception as e:
-            rec["answer"] = f"[ERROR] {e}"
-            rec["ok"] = False
+        if args.retrieval_only:
+            for field in ANSWER_FIELDS:
+                if field in old:
+                    rec[field] = old[field]
+            rec.setdefault("answer", "")
+            rec.setdefault("citations", [])
+            rec.setdefault("confidence", 0.0)
+            rec.setdefault("ok", False)
+        else:
+            try:
+                generated = answer(question, hits=hits)
+                rec["answer"] = generated.get("answer", "")
+                rec["citations"] = generated.get("citations", [])
+                rec["confidence"] = generated.get("confidence", 0.0)
+                rec["ok"] = generated.get("ok", False)
+                if "score" in old:
+                    rec["score"] = old["score"]
+                if "note" in old:
+                    rec["note"] = old["note"]
+            except Exception as exc:
+                rec.update({"answer": f"[ERROR] {type(exc).__name__}: {exc}",
+                            "citations": [], "confidence": 0.0, "ok": False})
 
-        # 无答案题自动判断是否拒答
         if not it["answerable"]:
-            said_unknown = ("没有" in rec["answer"]) or ("未提及" in rec["answer"]) or ("不知道" in rec["answer"])
+            text = rec["answer"]
+            said_unknown = any(word in text for word in ("没有", "未提及", "不知道"))
             rec["reject_ok"] = said_unknown
-            if said_unknown:
-                reject_ok += 1
+            reject_ok += said_unknown
 
         results.append(rec)
         mark = "✓" if rec.get("recall_hit") else ("·" if not it["answerable"] else "✗")
-        print(f"[{mark}] {it['id']:>2} {q[:30]}")
+        print(f"[{mark}] {it['id']:>2} {question[:30]}", flush=True)
 
-    recall5 = hit5 / total_answerable if total_answerable else 0
-    recall10 = hit10 / total_answerable if total_answerable else 0
-    reject_rate = reject_ok / total_unanswerable if total_unanswerable else 0
-
+    scored = [x["score"] for x in results if x.get("answerable") and isinstance(x.get("score"), (int, float))]
     summary = {
-        "recall@5": round(recall5, 3),
-        "recall@10": round(recall10, 3),
-        "reject_rate": round(reject_rate, 3),
-        "total": len(items),
-        "answerable": total_answerable,
+        "eval_version": data.get("eval_version", "d11-single-source-v1"),
+        "eval_file": args.eval_file,
+        "retrieval_only": args.retrieval_only,
+        "recall@5": round(equivalent5 / total_answerable, 3) if total_answerable else 0,
+        "recall@10": round(equivalent10 / total_answerable, 3) if total_answerable else 0,
+        "strict_recall@5": round(strict5 / total_answerable, 3) if total_answerable else 0,
+        "strict_recall@10": round(strict10 / total_answerable, 3) if total_answerable else 0,
+        "reject_rate": round(reject_ok / total_unanswerable, 3) if total_unanswerable else 0,
+        "total": len(results), "answerable": total_answerable,
         "unanswerable": total_unanswerable,
+        "generation_ok": sum(1 for x in results if x.get("ok")),
+        "scored_answers": len(scored),
     }
-    print("\n=== 结果 ===")
-    print(json.dumps(summary, ensure_ascii=False, indent=2))
+    if scored:
+        summary["answer_avg_score"] = round(sum(scored) / len(scored), 3)
+        summary["answer_total"] = sum(scored)
 
-    json.dump({"summary": summary, "items": results}, open(OUT_FILE, "w", encoding="utf-8"),
-              ensure_ascii=False, indent=2)
-    print(f"\n明细已写入 {OUT_FILE}，请人工给 answer 打 0/1/2 分")
+    print()
+    print("=== 结果 ===")
+    print(json.dumps(summary, ensure_ascii=False, indent=2))
+    with open(args.output, "w", encoding="utf-8") as f:
+        json.dump({"summary": summary, "items": results}, f, ensure_ascii=False, indent=2)
+    print()
+    print(f"明细已写入 {args.output}")
 
 
 if __name__ == "__main__":

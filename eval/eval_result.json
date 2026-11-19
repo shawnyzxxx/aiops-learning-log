@@ -5,7 +5,9 @@
     "reject_rate": 1.0,
     "total": 20,
     "answerable": 15,
-    "unanswerable": 5
+    "unanswerable": 5,
+    "answer_avg_score": 2.0,
+    "answer_total": 30
   },
   "items": [
     {
@@ -39,7 +41,9 @@
         "D07.md"
       ],
       "confidence": 0.85,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 2,
@@ -72,7 +76,9 @@
         "D02.md"
       ],
       "confidence": 0.9,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 3,
@@ -105,7 +111,9 @@
         "D02.md"
       ],
       "confidence": 0.9,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 4,
@@ -138,7 +146,9 @@
         "D03.md"
       ],
       "confidence": 1.0,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 5,
@@ -171,7 +181,9 @@
         "D03.md"
       ],
       "confidence": 1.0,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 6,
@@ -205,7 +217,9 @@
         "D07.md"
       ],
       "confidence": 0.8,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 7,
@@ -238,7 +252,9 @@
         "D04.md"
       ],
       "confidence": 0.8,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 8,
@@ -272,7 +288,9 @@
         "D07.md"
       ],
       "confidence": 0.9,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 9,
@@ -305,7 +323,9 @@
         "D06-cheatsheet.md"
       ],
       "confidence": 1.0,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 10,
@@ -339,7 +359,9 @@
         "D06-cheatsheet.md"
       ],
       "confidence": 1.0,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 11,
@@ -373,7 +395,9 @@
         "api.md"
       ],
       "confidence": 0.95,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 12,
@@ -404,7 +428,9 @@
       "answer": "PromQL 的 `rate()` 函数用于计算每秒的平均值，通常用于计算一段时间内的平均变化率。它会根据时间序列数据计算每秒的增量，并返回一个表示每秒变化率的时间序列。这个函数常用于监控系统的性能指标，例如请求速率、错误率等，特别是在需要了解一段时间内指标变化趋势时非常有用。",
       "citations": [],
       "confidence": 0.2,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 13,
@@ -437,7 +463,9 @@
         "api.md"
       ],
       "confidence": 0.9,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 14,
@@ -470,7 +498,9 @@
         "federation.md"
       ],
       "confidence": 0.95,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 15,
@@ -505,7 +535,9 @@
         "5_第1章-SRE和DevOps的关系.md"
       ],
       "confidence": 0.9,
-      "ok": true
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
     },
     {
       "id": 16,

@@ -24,7 +24,7 @@
 | `scripts/rhel-setup.sh` | RHEL 9 环境一键初始化脚本 |
 | `notes/` | 每日复盘（D01–D21） |
 | `docs/` | dashboard 截图、架构图、录屏 |
-| `eval/` | 评测集与打分结果（`questions.json` 完整版 / `eval_set.json` run_eval 输入 / `eval_result.json` 实测结果） |
+| `eval/` | 评测集与打分结果（`questions.json` 完整版 / `eval_set.json` 严格口径输入 / `eval_set_d13.json` 等价来源口径 / `eval_result.json`、`eval_result_d13*.json` 实测结果） |
 
 ## 环境
 
@@ -50,7 +50,8 @@
 - [x] D10 20 条评测集 + 自检脚本（[eval/questions.json](eval/questions.json) · [src/d10_check.py](src/d10_check.py) · [notes/D10.md](notes/D10.md)）
 - [x] D11 第一次评测：recall@5 = **0.867**（13/15）、拒答率 **1.0**（5/5）（[src/run_eval.py](src/run_eval.py) · [eval/eval_result.json](eval/eval_result.json) · [notes/D11.md](notes/D11.md)）
 - [x] D12 第一次调优：500 字切分（179 块）+ BM25 混合检索 → recall@5 = 0.867、**recall@10 = 0.933**、拒答率 1.0（[src/hybrid.py](src/hybrid.py) · [notes/D12.md](notes/D12.md)）
-- [ ] 第 2 周（进行中：D13 封装 `rag_service.py`）
+- [x] D13 第二轮调优 + 封装：外加等价来源口径 → recall@5 **0.867（严格）/ 0.933（等价来源）**、recall@10 **1.0**、拒答率 1.0、答案均分 **2.0**（[src/rag_service.py](src/rag_service.py) · [eval/eval_set_d13.json](eval/eval_set_d13.json) · [notes/D13.md](notes/D13.md)）
+- [ ] 第 2 周剩余：D14 冻结版本 + 打 `week2-done` 快照
 - [ ] 第 3 周
 
 ## 三周验收标准

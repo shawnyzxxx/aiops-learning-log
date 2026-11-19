@@ -1,0 +1,780 @@
+{
+  "summary": {
+    "eval_version": "d11-single-source-v1",
+    "eval_file": "eval_set.json",
+    "retrieval_only": true,
+    "recall@5": 0.867,
+    "recall@10": 0.933,
+    "strict_recall@5": 0.867,
+    "strict_recall@10": 0.933,
+    "reject_rate": 1.0,
+    "total": 20,
+    "answerable": 15,
+    "unanswerable": 5,
+    "generation_ok": 20,
+    "scored_answers": 15,
+    "answer_avg_score": 2.0,
+    "answer_total": 30
+  },
+  "items": [
+    {
+      "id": 1,
+      "question": "服务要对外暴露请求次数和请求耗时，这两个指标分别该用什么类型？",
+      "answerable": true,
+      "expected": "D01.md",
+      "expected_sources": [
+        "D01.md"
+      ],
+      "retrieved": [
+        "examples.md",
+        "basics.md",
+        "federation.md",
+        "examples.md",
+        "examples.md"
+      ],
+      "retrieved10": [
+        "examples.md",
+        "basics.md",
+        "federation.md",
+        "examples.md",
+        "examples.md",
+        "examples.md",
+        "api.md",
+        "D07.md",
+        "basics.md",
+        "federation.md"
+      ],
+      "strict_recall_hit": false,
+      "strict_recall10_hit": false,
+      "recall_hit": false,
+      "recall10_hit": false,
+      "answer": "请求次数应该使用Counter类型来暴露，因为它会记录从零开始递增的请求数量；请求耗时应该使用Histogram类型来暴露，因为它可以记录一系列观测值的分布情况，适合用来统计请求耗时的分布。",
+      "citations": [
+        "D07.md"
+      ],
+      "confidence": 0.85,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 2,
+      "question": "Prometheus 里某个 target 显示 DOWN，我应该先查哪里？",
+      "answerable": true,
+      "expected": "D02.md",
+      "expected_sources": [
+        "D02.md"
+      ],
+      "retrieved": [
+        "D02.md",
+        "D03.md",
+        "federation.md",
+        "federation.md",
+        "D04.md"
+      ],
+      "retrieved10": [
+        "D02.md",
+        "D03.md",
+        "federation.md",
+        "federation.md",
+        "D04.md",
+        "D01.md",
+        "D01.md",
+        "D02.md",
+        "D02.md",
+        "api.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "首先应该检查被监控对象是否正常运行，即服务是否在监听指定端口并且能够响应请求。",
+      "citations": [
+        "D02.md"
+      ],
+      "confidence": 0.9,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 3,
+      "question": "Docker 容器读挂载的配置文件报 permission denied，一般是什么原因？",
+      "answerable": true,
+      "expected": "D02.md",
+      "expected_sources": [
+        "D02.md"
+      ],
+      "retrieved": [
+        "D07.md",
+        "D02.md",
+        "D06-cheatsheet.md",
+        "D02.md",
+        "D06-cheatsheet.md"
+      ],
+      "retrieved10": [
+        "D07.md",
+        "D02.md",
+        "D06-cheatsheet.md",
+        "D02.md",
+        "D06-cheatsheet.md",
+        "D03.md",
+        "D02.md",
+        "D07.md",
+        "D01.md",
+        "D03.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "Docker 容器读挂载的配置文件报 permission denied 错误，一般是因为容器内的用户和宿主机的用户不是同一套 uid。具体来说，宿主机上的目录权限设置不当，导致容器内的用户无法访问。解决方法是调整宿主机目录的权限，例如使用 `chmod 711 /home/shawny` 允许穿越（不能列目录），并使用 `chmod -R a+rX ~/aiops/dashboards ~/aiops/provisioning` 使容器用户有读和执行的权限。",
+      "citations": [
+        "D02.md"
+      ],
+      "confidence": 0.9,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 4,
+      "question": "日志里为什么要给每条记录加 trace_id？",
+      "answerable": true,
+      "expected": "D03.md",
+      "expected_sources": [
+        "D03.md"
+      ],
+      "retrieved": [
+        "D03.md",
+        "D03.md",
+        "D03.md",
+        "D07.md",
+        "D07.md"
+      ],
+      "retrieved10": [
+        "D03.md",
+        "D03.md",
+        "D03.md",
+        "D07.md",
+        "D07.md",
+        "D02.md",
+        "D04.md",
+        "D07.md",
+        "api.md",
+        "D07.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "日志里给每条记录加 trace_id 的原因是它可以串联一次用户操作可能打多个服务的日志，帮助将散落的日志连起来。",
+      "citations": [
+        "D03.md"
+      ],
+      "confidence": 1.0,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 5,
+      "question": "应用日志里的 client 字段为什么总是 127.0.0.1？",
+      "answerable": true,
+      "expected": "D03.md",
+      "expected_sources": [
+        "D03.md"
+      ],
+      "retrieved": [
+        "D03.md",
+        "D03.md",
+        "D01.md",
+        "D01.md",
+        "D02.md"
+      ],
+      "retrieved10": [
+        "D03.md",
+        "D03.md",
+        "D01.md",
+        "D01.md",
+        "D02.md",
+        "D03.md",
+        "D03.md",
+        "D04.md",
+        "D03.md",
+        "D02.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "应用日志里的 `client` 字段总是 127.0.0.1，是因为唯一的流量源是 `aiops-traffic.service`，它执行 `traffic.sh localhost:8000`，请求走本机回环网卡，对端自然就是 `127.0.0.1`。此外，`client` 取的是 `request.client.host`，即 TCP 连接的对端 IP，而不是 HTTP 头里的信息。Prometheus 的请求被中间件跳过了，所以看不到 Docker 网桥地址（`172.18.0.1`）。",
+      "citations": [
+        "D03.md"
+      ],
+      "confidence": 1.0,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 6,
+      "question": "告警一直 firing，但接收端什么也没收到，先查什么？",
+      "answerable": true,
+      "expected": "D04.md",
+      "expected_sources": [
+        "D04.md"
+      ],
+      "retrieved": [
+        "D04.md",
+        "D04.md",
+        "D07.md",
+        "D04.md",
+        "D04.md"
+      ],
+      "retrieved10": [
+        "D04.md",
+        "D04.md",
+        "D07.md",
+        "D04.md",
+        "D04.md",
+        "D04.md",
+        "D02.md",
+        "D01.md",
+        "D03.md",
+        "D06-cheatsheet.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "先检查告警规则和Alertmanager的配置是否正确，确认Prometheus是否正确触发了告警，并且Alertmanager能够接收到这些告警。同时，也需要检查Alertmanager是否正确配置了接收告警的webhook，以及receiver是否正常运行。",
+      "citations": [
+        "D04.md",
+        "D07.md"
+      ],
+      "confidence": 0.8,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 7,
+      "question": "既然 Prometheus 能判断告警，为什么还要单独用一个 Alertmanager？",
+      "answerable": true,
+      "expected": "D04.md",
+      "expected_sources": [
+        "D04.md"
+      ],
+      "retrieved": [
+        "D04.md",
+        "D07.md",
+        "D03.md",
+        "D04.md",
+        "D02.md"
+      ],
+      "retrieved10": [
+        "D04.md",
+        "D07.md",
+        "D03.md",
+        "D04.md",
+        "D02.md",
+        "federation.md",
+        "D02.md",
+        "federation.md",
+        "D04.md",
+        "federation.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "Prometheus 负责计算告警规则，但不负责发送告警通知。告警通知需要通过 Alertmanager 进行处理和转发。这是 Prometheus 的设计，计算和通知解耦，使得告警规则的计算更加灵活，同时 Alertmanager 负责通知策略的实现，如通知频率控制、通知渠道选择等。",
+      "citations": [
+        "D04.md"
+      ],
+      "confidence": 0.8,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 8,
+      "question": "在网卡上加了 200ms 延迟，但测本机服务没变化，为什么？",
+      "answerable": true,
+      "expected": "D05.md",
+      "expected_sources": [
+        "D05.md"
+      ],
+      "retrieved": [
+        "D05.md",
+        "D07.md",
+        "D05.md",
+        "D05.md",
+        "D05.md"
+      ],
+      "retrieved10": [
+        "D05.md",
+        "D07.md",
+        "D05.md",
+        "D05.md",
+        "D05.md",
+        "D04.md",
+        "D05.md",
+        "D01.md",
+        "D06-cheatsheet.md",
+        "D05.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "因为在本机上访问本机服务时，数据包会直接通过回环接口（lo）处理，而不经过物理网卡（如ens33）。因此，即使在ens33上添加了延迟规则，也不会影响到本机服务的性能。",
+      "citations": [
+        "D05.md",
+        "D07.md"
+      ],
+      "confidence": 0.9,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 9,
+      "question": "服务连不上，第一步怎么确认端口到底在不在监听？",
+      "answerable": true,
+      "expected": "D06-cheatsheet.md",
+      "expected_sources": [
+        "D06-cheatsheet.md"
+      ],
+      "retrieved": [
+        "D06-cheatsheet.md",
+        "D06-cheatsheet.md",
+        "D02.md",
+        "D04.md",
+        "D03.md"
+      ],
+      "retrieved10": [
+        "D06-cheatsheet.md",
+        "D06-cheatsheet.md",
+        "D02.md",
+        "D04.md",
+        "D03.md",
+        "D04.md",
+        "D06-cheatsheet.md",
+        "D03.md",
+        "D07.md",
+        "D03.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "第一步是使用 `ss -tlnp | grep <端口>` 或 `netstat -tulnp | grep <端口>` 命令来确认端口是否在监听。如果没有任何输出，说明服务没有启动成功或者没有监听在指定端口上。如果有输出但监听在 `127.0.0.1` 而不是 `0.0.0.0`，或者被防火墙拦了，那么端口就是监听的，但可能无法从外部访问。",
+      "citations": [
+        "D06-cheatsheet.md"
+      ],
+      "confidence": 1.0,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 10,
+      "question": "8000 端口被占用，kill 掉进程又冒出来，怎么回事？",
+      "answerable": true,
+      "expected": "D06-cheatsheet.md",
+      "expected_sources": [
+        "D06-cheatsheet.md"
+      ],
+      "retrieved": [
+        "D03.md",
+        "D06-cheatsheet.md",
+        "D03.md",
+        "D04.md",
+        "D06-cheatsheet.md"
+      ],
+      "retrieved10": [
+        "D03.md",
+        "D06-cheatsheet.md",
+        "D03.md",
+        "D04.md",
+        "D06-cheatsheet.md",
+        "D04.md",
+        "D05.md",
+        "D06-cheatsheet.md",
+        "D01.md",
+        "D06-cheatsheet.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "8000端口被占用的问题是因为`aiops-app.service`配置了`Restart=always`和`RestartSec=3`，这意味着只要进程不是被systemd主动停的，systemd会在3秒后自动拉起被kill的进程。因此，直接使用`kill`命令无法解决问题，应该使用`systemctl stop/restart`来管理服务。",
+      "citations": [
+        "D03.md",
+        "D06-cheatsheet.md"
+      ],
+      "confidence": 1.0,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 11,
+      "question": "PromQL 想排除所有 4xx 状态码的请求，表达式怎么写？",
+      "answerable": true,
+      "expected": "examples.md",
+      "expected_sources": [
+        "examples.md"
+      ],
+      "retrieved": [
+        "api.md",
+        "basics.md",
+        "basics.md",
+        "api.md",
+        "api.md"
+      ],
+      "retrieved10": [
+        "api.md",
+        "basics.md",
+        "basics.md",
+        "api.md",
+        "api.md",
+        "basics.md",
+        "api.md",
+        "basics.md",
+        "examples.md",
+        "basics.md"
+      ],
+      "strict_recall_hit": false,
+      "strict_recall10_hit": true,
+      "recall_hit": false,
+      "recall10_hit": true,
+      "answer": "要排除所有 4xx 状态码的请求，可以使用以下 PromQL 表达式：\n\n```\nhttp_requests_total{status!~\"4..\"}\n```\n\n这个表达式会返回度量指标名称是 `http_requests_total`，且 http 返回码不以 `4` 开头的所有时间序列数据。",
+      "citations": [
+        "basics.md",
+        "api.md"
+      ],
+      "confidence": 0.95,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 12,
+      "question": "PromQL 的 rate() 函数是做什么的，常用在什么场景？",
+      "answerable": true,
+      "expected": "basics.md",
+      "expected_sources": [
+        "basics.md"
+      ],
+      "retrieved": [
+        "api.md",
+        "api.md",
+        "basics.md",
+        "api.md",
+        "basics.md"
+      ],
+      "retrieved10": [
+        "api.md",
+        "api.md",
+        "basics.md",
+        "api.md",
+        "basics.md",
+        "basics.md",
+        "basics.md",
+        "basics.md",
+        "examples.md",
+        "api.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "PromQL 的 `rate()` 函数用于计算每秒的平均值，通常用于计算一段时间内的平均变化率。它会根据时间序列数据计算每秒的增量，并返回一个表示每秒变化率的时间序列。这个函数常用于监控系统的性能指标，例如请求速率、错误率等，特别是在需要了解一段时间内指标变化趋势时非常有用。",
+      "citations": [],
+      "confidence": 0.2,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 13,
+      "question": "不用 Grafana 的话，怎么用命令行直接查 Prometheus 里一个表达式的值？",
+      "answerable": true,
+      "expected": "api.md",
+      "expected_sources": [
+        "api.md"
+      ],
+      "retrieved": [
+        "api.md",
+        "examples.md",
+        "D01.md",
+        "federation.md",
+        "federation.md"
+      ],
+      "retrieved10": [
+        "api.md",
+        "examples.md",
+        "D01.md",
+        "federation.md",
+        "federation.md",
+        "D02.md",
+        "basics.md",
+        "D07.md",
+        "federation.md",
+        "basics.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "可以通过使用 `GET /api/v1/query` API 来查询 Prometheus 中的 PromQL 表达式的值。需要提供 `query` 参数指定 PromQL 表达式，以及可选的 `time` 参数指定计算时间戳，默认使用当前时间。",
+      "citations": [
+        "api.md"
+      ],
+      "confidence": 0.9,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 14,
+      "question": "Prometheus 联邦是干什么的，什么场景会用到？",
+      "answerable": true,
+      "expected": "federation.md",
+      "expected_sources": [
+        "federation.md"
+      ],
+      "retrieved": [
+        "federation.md",
+        "federation.md",
+        "federation.md",
+        "federation.md",
+        "D04.md"
+      ],
+      "retrieved10": [
+        "federation.md",
+        "federation.md",
+        "federation.md",
+        "federation.md",
+        "D04.md",
+        "D02.md",
+        "api.md",
+        "basics.md",
+        "D03.md",
+        "D02.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "Prometheus 联邦主要用于实现可扩展的监控设置，或者将相关的指标从一个服务的 Prometheus 拉取到另一个 Prometheus 中。具体来说，分层联邦允许 Prometheus 能够扩展到十几个数据中心和上百万的节点，而跨服务联邦则允许一个服务的 Prometheus 服务器提取来自其他服务的 Prometheus 服务器的指定数据，以便在一个 Prometheus 服务器中对两个数据集启用告警和查询。",
+      "citations": [
+        "federation.md"
+      ],
+      "confidence": 0.95,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 15,
+      "question": "SRE 和 DevOps 到底是什么关系？",
+      "answerable": true,
+      "expected": "5_第1章-SRE和DevOps的关系.md",
+      "expected_sources": [
+        "5_第1章-SRE和DevOps的关系.md"
+      ],
+      "retrieved": [
+        "5_第1章-SRE和DevOps的关系.md",
+        "3_前言-II.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md"
+      ],
+      "retrieved10": [
+        "5_第1章-SRE和DevOps的关系.md",
+        "3_前言-II.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "1_目录.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "3_前言-II.md",
+        "5_第1章-SRE和DevOps的关系.md"
+      ],
+      "strict_recall_hit": true,
+      "strict_recall10_hit": true,
+      "recall_hit": true,
+      "recall10_hit": true,
+      "answer": "SRE可以被视为DevOps的一种具体实现。DevOps是一种更广泛的哲学和文化，强调打破组织中的障碍，而SRE则更专注于服务和最终用户的管理，提供了一个更具体的知识框架来有效运行系统。尽管两者在许多方面有共同点，如协作、度量和变更管理，但SRE更注重具体的实践和工具，而DevOps则更侧重于文化和流程的变革。",
+      "citations": [
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md"
+      ],
+      "confidence": 0.9,
+      "ok": true,
+      "score": 2,
+      "note": "答案准确完整"
+    },
+    {
+      "id": 16,
+      "question": "公司 2024 年那次线上大故障的复盘结论是什么？",
+      "answerable": false,
+      "expected": null,
+      "expected_sources": [],
+      "retrieved": [
+        "5_第1章-SRE和DevOps的关系.md",
+        "D04.md",
+        "D05.md",
+        "D04.md",
+        "D02.md"
+      ],
+      "retrieved10": [
+        "5_第1章-SRE和DevOps的关系.md",
+        "D04.md",
+        "D05.md",
+        "D04.md",
+        "D02.md",
+        "D02.md",
+        "1_目录.md",
+        "1_目录.md",
+        "D01.md",
+        "D05.md"
+      ],
+      "answer": "资料中没有相关信息",
+      "citations": [],
+      "confidence": 0.2,
+      "ok": true,
+      "reject_ok": true
+    },
+    {
+      "id": 17,
+      "question": "生产数据库的 root 密码是多少？",
+      "answerable": false,
+      "expected": null,
+      "expected_sources": [],
+      "retrieved": [
+        "D03.md",
+        "D05.md",
+        "D06-cheatsheet.md",
+        "D07.md",
+        "D05.md"
+      ],
+      "retrieved10": [
+        "D03.md",
+        "D05.md",
+        "D06-cheatsheet.md",
+        "D07.md",
+        "D05.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "D02.md",
+        "D07.md",
+        "4_序言.md",
+        "5_第1章-SRE和DevOps的关系.md"
+      ],
+      "answer": "资料中没有相关信息",
+      "citations": [],
+      "confidence": 0.2,
+      "ok": true,
+      "reject_ok": true
+    },
+    {
+      "id": 18,
+      "question": "我们公司的 SLA 赔付条款具体怎么写的？",
+      "answerable": false,
+      "expected": null,
+      "expected_sources": [],
+      "retrieved": [
+        "1_目录.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "3_前言-II.md"
+      ],
+      "retrieved10": [
+        "1_目录.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "3_前言-II.md",
+        "1_目录.md",
+        "1_目录.md",
+        "4_序言.md",
+        "1_目录.md",
+        "2_前言-I.md"
+      ],
+      "answer": "资料中没有相关信息",
+      "citations": [],
+      "confidence": 0.2,
+      "ok": true,
+      "reject_ok": true
+    },
+    {
+      "id": 19,
+      "question": "竞品 A 的容灾架构是怎么设计的？",
+      "answerable": false,
+      "expected": null,
+      "expected_sources": [],
+      "retrieved": [
+        "1_目录.md",
+        "D02.md",
+        "D04.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "D06-cheatsheet.md"
+      ],
+      "retrieved10": [
+        "1_目录.md",
+        "D02.md",
+        "D04.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "D06-cheatsheet.md",
+        "D02.md",
+        "D02.md",
+        "5_第1章-SRE和DevOps的关系.md",
+        "D07.md",
+        "federation.md"
+      ],
+      "answer": "资料中没有相关信息",
+      "citations": [],
+      "confidence": 0.2,
+      "ok": true,
+      "reject_ok": true
+    },
+    {
+      "id": 20,
+      "question": "下个季度容量规划的预算批了多少？",
+      "answerable": false,
+      "expected": null,
+      "expected_sources": [],
+      "retrieved": [
+        "D07.md",
+        "D01.md",
+        "D05.md",
+        "D07.md",
+        "examples.md"
+      ],
+      "retrieved10": [
+        "D07.md",
+        "D01.md",
+        "D05.md",
+        "D07.md",
+        "examples.md",
+        "D07.md",
+        "D06-cheatsheet.md",
+        "D02.md",
+        "D03.md",
+        "D05.md"
+      ],
+      "answer": "资料中没有相关信息",
+      "citations": [],
+      "confidence": 0.2,
+      "ok": true,
+      "reject_ok": true
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "corpus_frozen_at": "2026-11-17",
+  "eval_version": "d13-equivalent-sources-v1",
+  "based_on": "d11-single-source-v1",
+  "change_note": "仅第1题增加 basics.md 为等价来源：该文档确实讲解 Counter/Histogram；第11题仍只接受 examples.md，不放宽为 api.md。",
+  "items": [
+    {"id":1,"question":"服务要对外暴露请求次数和请求耗时，这两个指标分别该用什么类型？","expected_source":"D01.md","expected_sources":["D01.md","basics.md"],"answerable":true},
+    {"id":2,"question":"Prometheus 里某个 target 显示 DOWN，我应该先查哪里？","expected_source":"D02.md","answerable":true},
+    {"id":3,"question":"Docker 容器读挂载的配置文件报 permission denied，一般是什么原因？","expected_source":"D02.md","answerable":true},
+    {"id":4,"question":"日志里为什么要给每条记录加 trace_id？","expected_source":"D03.md","answerable":true},
+    {"id":5,"question":"应用日志里的 client 字段为什么总是 127.0.0.1？","expected_source":"D03.md","answerable":true},
+    {"id":6,"question":"告警一直 firing，但接收端什么也没收到，先查什么？","expected_source":"D04.md","answerable":true},
+    {"id":7,"question":"既然 Prometheus 能判断告警，为什么还要单独用一个 Alertmanager？","expected_source":"D04.md","answerable":true},
+    {"id":8,"question":"在网卡上加了 200ms 延迟，但测本机服务没变化，为什么？","expected_source":"D05.md","answerable":true},
+    {"id":9,"question":"服务连不上，第一步怎么确认端口到底在不在监听？","expected_source":"D06-cheatsheet.md","answerable":true},
+    {"id":10,"question":"8000 端口被占用，kill 掉进程又冒出来，怎么回事？","expected_source":"D06-cheatsheet.md","answerable":true},
+    {"id":11,"question":"PromQL 想排除所有 4xx 状态码的请求，表达式怎么写？","expected_source":"examples.md","answerable":true},
+    {"id":12,"question":"PromQL 的 rate() 函数是做什么的，常用在什么场景？","expected_source":"basics.md","answerable":true},
+    {"id":13,"question":"不用 Grafana 的话，怎么用命令行直接查 Prometheus 里一个表达式的值？","expected_source":"api.md","answerable":true},
+    {"id":14,"question":"Prometheus 联邦是干什么的，什么场景会用到？","expected_source":"federation.md","answerable":true},
+    {"id":15,"question":"SRE 和 DevOps 到底是什么关系？","expected_source":"5_第1章-SRE和DevOps的关系.md","answerable":true},
+    {"id":16,"question":"公司 2024 年那次线上大故障的复盘结论是什么？","expected_source":null,"answerable":false},
+    {"id":17,"question":"生产数据库的 root 密码是多少？","expected_source":null,"answerable":false},
+    {"id":18,"question":"我们公司的 SLA 赔付条款具体怎么写的？","expected_source":null,"answerable":false},
+    {"id":19,"question":"竞品 A 的容灾架构是怎么设计的？","expected_source":null,"answerable":false},
+    {"id":20,"question":"下个季度容量规划的预算批了多少？","expected_source":null,"answerable":false}
+  ]
+}
