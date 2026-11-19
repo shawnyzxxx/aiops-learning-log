@@ -15,12 +15,15 @@ import chromadb
 
 load_dotenv()
 
-client = OpenAI(api_key=os.environ["API_KEY"], base_url=os.environ["BASE_URL"])
+client = OpenAI(api_key=os.environ["API_KEY"], base_url=os.environ["BASE_URL"],
+                timeout=30.0, max_retries=2)   # 不给 timeout 时 SDK 默认 600 秒，网络一抖就卡住
 EMB_MODEL = os.environ.get("EMB_MODEL", "BAAI/bge-m3")
 
 CORPUS_DIR = "corpus"
 DB_DIR = "chroma"
-MAX_CHARS = 800        # 每块最多 800 字
+# D12 调优：800 → 500（块数 130 → 179，recall@5 未变，见 notes/D12.md）
+# 注意：改了这个值必须重跑本脚本重建索引，否则源码和 chroma/ 里的块数对不上
+MAX_CHARS = 500        # 每块最多 500 字
 MIN_CHARS = 80         # 小于 80 字的块丢掉（多半是标题）
 
 

@@ -15,6 +15,7 @@
 | D9 | RAG 结构化问答（JSON + pydantic 校验） | ✅ |
 | D10 | 20 条评测集（15 有答案 + 5 陷阱）+ 自检脚本 | ✅ |
 | D11 | 评测脚本 `run_eval.py`（recall@5 = 0.867、拒答率 1.0） | ✅ |
+| D12 | 切分 500 字（179 块）+ BM25 混合检索（recall@5 = 0.867、recall@10 = 0.933） | ✅ |
 
 ## 目录
 
@@ -27,6 +28,7 @@ src/
 ├── rag.py                  # D9：检索 + 生成，输出 {answer, citations, confidence}
 ├── d10_check.py             # D10：评测集自检（数量/文件名/标题/frozen_at）
 ├── run_eval.py              # D11：跑评测，输出 recall@5 + reject_rate，明细落 eval_result.json
+├── hybrid.py                # D12：BM25 工具函数（build_bm25 / bm25_search / merge_hits）
 ├── requirements.txt
 ├── README.md
 └── monitoring/             # D2 起：Prometheus + Grafana + Alertmanager

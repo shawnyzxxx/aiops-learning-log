@@ -49,7 +49,8 @@
 - [x] D9 RAG 结构化问答 + pydantic 校验（[src/rag.py](src/rag.py) · [notes/D09.md](notes/D09.md)）— 格式合法 20/20，拒答 5/5
 - [x] D10 20 条评测集 + 自检脚本（[eval/questions.json](eval/questions.json) · [src/d10_check.py](src/d10_check.py) · [notes/D10.md](notes/D10.md)）
 - [x] D11 第一次评测：recall@5 = **0.867**（13/15）、拒答率 **1.0**（5/5）（[src/run_eval.py](src/run_eval.py) · [eval/eval_result.json](eval/eval_result.json) · [notes/D11.md](notes/D11.md)）
-- [ ] 第 2 周（进行中：D12 调优）
+- [x] D12 第一次调优：500 字切分（179 块）+ BM25 混合检索 → recall@5 = 0.867、**recall@10 = 0.933**、拒答率 1.0（[src/hybrid.py](src/hybrid.py) · [notes/D12.md](notes/D12.md)）
+- [ ] 第 2 周（进行中：D13 封装 `rag_service.py`）
 - [ ] 第 3 周
 
 ## 三周验收标准

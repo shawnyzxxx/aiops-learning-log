@@ -10,3 +10,6 @@ python-dotenv==1.2.1
 pysqlite3-binary==0.5.4.post2
 # D9 起：结构化输出校验（venv 里随 chromadb 带入，显式声明避免"侥幸可用"）
 pydantic==2.13.5
+# D12 起：混合检索（BM25 关键词召回 + jieba 中文分词）
+rank-bm25==0.2.2
+jieba==0.42.1
