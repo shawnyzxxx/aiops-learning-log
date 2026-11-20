@@ -50,17 +50,43 @@
 - [x] D10 20 条评测集 + 自检脚本（[eval/questions.json](eval/questions.json) · [src/d10_check.py](src/d10_check.py) · [notes/D10.md](notes/D10.md)）
 - [x] D11 第一次评测：recall@5 = **0.867**（13/15）、拒答率 **1.0**（5/5）（[src/run_eval.py](src/run_eval.py) · [eval/eval_result.json](eval/eval_result.json) · [notes/D11.md](notes/D11.md)）
 - [x] D12 第一次调优：500 字切分（179 块）+ BM25 混合检索 → recall@5 = 0.867、**recall@10 = 0.933**、拒答率 1.0（[src/hybrid.py](src/hybrid.py) · [notes/D12.md](notes/D12.md)）
-- [x] D13 第二轮调优 + 封装：外加等价来源口径 → recall@5 **0.867（严格）/ 0.933（等价来源）**、recall@10 **1.0**、拒答率 1.0、答案均分 **2.0**（[src/rag_service.py](src/rag_service.py) · [eval/eval_set_d13.json](eval/eval_set_d13.json) · [notes/D13.md](notes/D13.md)）
-- [ ] 第 2 周剩余：D14 冻结版本 + 打 `week2-done` 快照
+- [x] D13 第二轮调优 + 封装：外加等价来源口径 → recall@5 **0.867（严格）/ 0.933（等价来源）**、recall@10 **1.0**、拒答率 1.0（[src/rag_service.py](src/rag_service.py) · [eval/eval_set_d13.json](eval/eval_set_d13.json) · [notes/D13.md](notes/D13.md)）
+- [x] D14 冻结版本：重跑复现全部检索指标，最终数字见下方[评测结果](#评测结果)；代码 9 个 `.py` md5 与仓库逐个一致（[notes/D14.md](notes/D14.md)）
+- [x] 第 2 周（D8–D14 全部完成）
 - [ ] 第 3 周
+
+## 评测结果
+
+> 冻结日期 **2026-11-20**。数字来自虚拟机 `~/aiops` 实跑，**不是估算**。细目见 [eval/eval_result.json](eval/eval_result.json)。
+
+| 指标 | 数值 | 口径 / 怎么测的 |
+|---|---|---|
+| 语料规模 | 16 篇文档 / **179** 个片段 | `cat corpus_stats.json` → `{"chunks": 179, "sources": 16}` |
+| 评测集 | 20 题（15 有答案 + 5 陷阱） | `eval/eval_set.json`，`frozen_at = 2026-11-17` |
+| **recall@5** | **0.867**（13/15） | 严格：只认 `expected_source` 单文件 |
+| **recall@5** | **0.933**（14/15） | 等价来源：认 `expected_sources` 任一 |
+| **recall@10** | **0.933**（严格）/ **1.0**（等价来源） | 与上一行同一份检索结果 |
+| 拒答正确率 | **1.0**（5/5） | 5 条陷阱题全部正确说「不知道」 |
+| 答案均分 | **1.933 / 2.0**（29/15） | 0/1/2 人工评分，D14 冻结时重新独立打分 |
+| 生成成功 | **20/20** | `generation_ok`，无超时、无解析失败 |
+
+**两个 recall@5 是同一份检索结果按两种口径算的**，不是两次不同的运行。报数时两个都要给：
+
+- 只说 0.933 不说严格口径 0.867 → 选择性报数
+- 只说 0.867 不说等价来源 0.933 → 没讲清评测集为什么这么定
+
+唯一未命中的是第 11 题（`examples.md`，向量第 9 / BM25 第 8，融合后进 top10 不进 top5），
+属于**语料缺 PromQL 排除写法的例子**，不是检索算法问题。
 
 ## 三周验收标准
 
 | 周 | 验收 |
 |---|---|
-| 第 1 周 | 能在 1 分钟内说清「系统健康吗，依据是哪三个指标」 |
-| 第 2 周 | recall@5 ≥ 0.8，5 条无答案样本至少 4 条正确拒答 |
-| 第 3 周 | 端到端能跑通，有 10 次注入实验的 MTTR 对比数据 |
+| 周 | 验收 | 实际 |
+|---|---|---|
+| 第 1 周 | 能在 1 分钟内说清「系统健康吗，依据是哪三个指标」 | ✅ |
+| 第 2 周 | recall@5 ≥ 0.8，5 条无答案样本至少 4 条正确拒答 | ✅ recall@5 **0.867 / 0.933**，拒答 **5/5** |
+| 第 3 周 | 端到端能跑通，有 10 次注入实验的 MTTR 对比数据 | 进行中 |
 
 ## 三条铁律
 
