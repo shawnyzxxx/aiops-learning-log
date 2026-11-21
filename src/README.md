@@ -18,6 +18,7 @@
 | D12 | 切分 500 字（179 块）+ BM25 混合检索（recall@5 = 0.867、recall@10 = 0.933） | ✅ |
 | D13 | 等价来源评测口径 + `ask()` 统一入口（recall@5 = 0.867 严格 / **0.933** 等价来源、recall@10 = 1.0） | ✅ |
 | D14 | 冻结版本：重跑复现全部检索指标，答案均分重新独立评分为 **1.933**（29/15）；代码无变更 | ✅ |
+| D15 | 上下文收集器 `collect(alert)`：指标（query_range 压缩）+ 日志聚合 + runbook 检索 | ✅ |
 
 ## 目录
 
@@ -32,6 +33,7 @@ src/
 ├── run_eval.py              # D11/D13：跑评测，输出严格与等价来源两套 recall + reject_rate；支持 --eval-file / --output / --retrieval-only
 ├── hybrid.py                # D12：BM25 工具函数（build_bm25 / bm25_search / merge_hits）
 ├── rag_service.py           # D13：对外统一入口 ask(question) -> {answer, citations, confidence, ok}
+├── collector.py              # D15：上下文收集器 collect(alert) -> {告警, 指标, 日志, 相关文档, 耗时}
 ├── requirements.txt
 ├── README.md
 └── monitoring/             # D2 起：Prometheus + Grafana + Alertmanager

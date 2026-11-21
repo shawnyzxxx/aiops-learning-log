@@ -13,3 +13,5 @@ pydantic==2.13.5
 # D12 起：混合检索（BM25 关键词召回 + jieba 中文分词）
 rank-bm25==0.2.2
 jieba==0.42.1
+# D15 起：collector.py 查 Prometheus HTTP API 用
+requests==2.32.5

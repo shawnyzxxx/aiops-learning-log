@@ -53,7 +53,8 @@
 - [x] D13 第二轮调优 + 封装：外加等价来源口径 → recall@5 **0.867（严格）/ 0.933（等价来源）**、recall@10 **1.0**、拒答率 1.0（[src/rag_service.py](src/rag_service.py) · [eval/eval_set_d13.json](eval/eval_set_d13.json) · [notes/D13.md](notes/D13.md)）
 - [x] D14 冻结版本：重跑复现全部检索指标，最终数字见下方[评测结果](#评测结果)；代码 9 个 `.py` md5 与仓库逐个一致（[notes/D14.md](notes/D14.md)）
 - [x] 第 2 周（D8–D14 全部完成）
-- [ ] 第 3 周
+- [x] D15 上下文收集器：一次调用返回指标 + 日志聚合 + runbook 检索（475 条 / 5xx 23 / 慢 134，耗时 22.8s）（[src/collector.py](src/collector.py) · [notes/D15.md](notes/D15.md)）
+- [ ] 第 3 周（D15 已完成，D16 起）
 
 ## 评测结果
 
